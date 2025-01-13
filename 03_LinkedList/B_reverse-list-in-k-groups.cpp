@@ -1,9 +1,10 @@
-//
+// https://www.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1
 
 #include <bits/stdc++.h>
 using namespace std;
 
-// 
+// Solution 01
+// it uses recursion in the reverse() method, and hence gets error: "time limit exceeded" 
 
 class Solution {
   
@@ -19,7 +20,6 @@ class Solution {
             data = x;
             next = NULL;
         }
-
     };
 
     // function to reverse a linked list
@@ -93,8 +93,11 @@ class Solution {
             return firstHead;
         }
     }
-    
 };
+
+
+// Solution 02
+// it uses three pointer approach in the reverse() method, hence no error
 
 class Solution {
   public:
@@ -181,6 +184,5 @@ class Solution {
             struct node* firstHead = reverse(head,trav);
             return firstHead;
         }
-    }
-    
+    } 
 };
