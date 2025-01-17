@@ -1,171 +1,67 @@
-// https://www.geeksforgeeks.org/problems/reverse-a-linked-list-in-groups-of-given-size/1
+// https://leetcode.com/problems/reverse-nodes-in-k-group/
 
 #include <bits/stdc++.h>
 using namespace std;
 
-// Solution 01
-// it uses recursion in the reverse() method, and hence gets error: "time limit exceeded" 
-
-class Solution {
-  
-  public:
-    
-    // data structure
-    struct node
-    {
-        int data;
-        struct node* next;
-
-        node(int x){
-            data = x;
-            next = NULL;
-        }
-    };
-
-    // function to reverse a linked list
-    struct node* reverse(struct node* head) {
-        
-        // base case
-        if(head->next==NULL){
-            return head;
-        }
-        
-        // reversing the head->next list
-        struct node* newHead = reverse(head->next);
-        
-        // joining the head at the end of the reversed list
-        struct node* trav = newHead;
-        while(trav->next!=NULL){
-            trav=trav->next;
-        }
-        trav->next=head;
-        head->next=NULL;
-        
-        // returning 
-        return newHead;
-        
-    };
-    
-    // function to reverse list in k groups
-    struct node *reverseKGroup(struct node *head, int k) {
-        
-        // base case
-        if(head->next==NULL){
-            return head;
-        }
-        
-        // locating the (k+1)th node
-        struct node* temp = head;
-        for(int i=0; i<k && temp!=NULL; i++){
-            if(temp!=NULL){
-                temp=temp->next;
-            }
-        }
-        
-        if(temp!=NULL){
-            
-            // spliting the list
-            struct node* trav = head;
-            while(trav->next!=temp){
-                trav=trav->next;
-            }
-            trav->next=NULL;
-            
-            // reversing the first part
-            struct node* firstHead = reverse(head);
-            struct node* firstEnd = firstHead;
-            while(firstEnd->next!=NULL){
-                firstEnd=firstEnd->next;
-            }
-            
-            // recursive call for the second call
-            struct node* secondHead = reverseKGroup(temp, k);
-            
-            // joining the first and second part
-            firstEnd->next = secondHead;
-            
-            // returning 
-            return firstHead;
-        }
-        
-        else {
-            struct node* firstHead = reverse(head);
-            return firstHead;
-        }
-    }
+ // Definition for singly-linked list.
+ struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode() : val(0), next(nullptr) {}
+     ListNode(int x) : val(x), next(nullptr) {}
+     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-
-// Solution 02
-// it uses three pointer approach in the reverse() method, hence no error
-
 class Solution {
-  public:
-
-    // data structure
-    struct node
-    {
-        int data;
-        struct node* next;
-        node(int x){
-            data = x;
-            next = NULL;
-        }
-    };
-
+public:
+    
     // function to reverse a linked list
-    struct node* reverse(struct node* head, struct node* tail) {
-        
-        node* prev = NULL;
-        node* curr = head;
-        node* next;
-
+    ListNode* reverse(ListNode* head, ListNode* tail) {
+        // three pointer approach
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* next;
+        // reversing
         while (curr != NULL) {
             next = curr->next;
             curr->next = prev;
             prev = curr;
             curr = next;
         }
-
+        // returning head
         return prev;    
     };
-    
+
     // function to reverse list in k groups
-    struct node *reverseKGroup(struct node *head, int k) {
-        
+    ListNode* reverseKGroup(ListNode* head, int k) {
         // base case
-        if(head->next==NULL){
+        if(head==NULL || head->next==NULL){
             return head;
         }
         
         // locating the (k)th node
-        struct node* temp = head;
-        for(int i=0; i<k && temp!=NULL; i++){
-            if(temp!=NULL){
-                temp=temp->next;
-            }
+        struct ListNode* firstEnd = head;
+        for(int i=0; i<k-1 && firstEnd!=NULL; i++){
+            firstEnd=firstEnd->next;
         }
         
-        if(temp!=NULL){
+        if(firstEnd!=NULL){
             
             // spliting the list
-            struct node* trav = head;
-            while(trav->next!=temp){
-                trav=trav->next;
-            }
-            trav->next=NULL;
+            ListNode* secondStart = firstEnd->next;
+            firstEnd->next=NULL;
             
             // reversing the first part
-            struct node* firstHead = reverse(head,trav);
-            struct node* firstEnd = firstHead;
+            ListNode* firstHead = reverse(head,firstEnd);
+                        
+            // recursive call for the second call
+            ListNode* secondHead = reverseKGroup(secondStart, k);
+            
+            // joining the first and second part
+            firstEnd = firstHead;
             while(firstEnd->next!=NULL){
                 firstEnd=firstEnd->next;
             }
-            
-            // recursive call for the second call
-            struct node* secondHead = reverseKGroup(temp, k);
-            
-            // joining the first and second part
             firstEnd->next = secondHead;
             
             // returning 
@@ -174,15 +70,17 @@ class Solution {
         
         else {
            
-            // locating the last node
-            struct node* trav = head;
-            while(trav->next!=NULL){
-                trav=trav->next;
-            }
+            return head;
+
+            // // locating the last node
+            // ListNode* trav = head;
+            // while(trav->next!=NULL){
+            //     trav=trav->next;
+            // }
            
-            // simply reversing and returning
-            struct node* firstHead = reverse(head,trav);
-            return firstHead;
+            // // simply reversing and returning
+            // ListNode* firstHead = reverse(head,trav);
+            // return firstHead;
         }
     } 
 };
