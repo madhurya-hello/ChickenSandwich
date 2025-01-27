@@ -1,9 +1,9 @@
-// https://leetcode.com/problems/binary-tree-inorder-traversal/solutions/6298582/mentos-zindagi-morris-traversal-java/
+// https://leetcode.com/problems/binary-tree-inorder-traversal/description/
 
 #include <bits/stdc++.h>
 using namespace std;
 
- //Definition for a binary tree node.
+ // Definition for a binary tree node.
  struct TreeNode {
      int val;
      TreeNode *left;

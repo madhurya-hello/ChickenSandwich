@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-//Definition for a binary tree node.
+// Definition for a binary tree node.
 struct Node {
     int data;
     Node *left;
@@ -12,7 +12,7 @@ struct Node {
 
 
 // NOTE
-// 01. Ofcourse we will maintain an unordered map which will store the Nodes with their column number
+// 01. Ofcourse we will maintain an unordered map which will store the nodes with their column number
 // 02. An element appearing for the first time in a column will be selected as a top-view-element
 // 03. The most important step, is that we must do a level order traversal to solve this problem 
 
